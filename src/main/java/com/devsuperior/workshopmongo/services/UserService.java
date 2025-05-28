@@ -30,4 +30,16 @@ public class UserService {
 				.switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado")));
 	}
 
+	public Mono<UserDTO> inset(UserDTO dto){
+		User entity = new User();
+		copy(dto, entity);
+		Mono<UserDTO> result = repository.save(entity).map(userDTO -> new UserDTO(userDTO));
+
+		return result;
+	}
+
+	private void copy(UserDTO dto, User entity){
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+	}
 }
