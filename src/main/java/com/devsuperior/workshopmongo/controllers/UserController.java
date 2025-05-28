@@ -34,4 +34,9 @@ public class UserController {
 						builder.path("/users/{id}")
 						.buildAndExpand(newUser.getId()).toUri()).body(newUser));
 	}
+
+	@PutMapping(value = "/{id}")
+	public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO dto){
+		return service.update(id, dto).map(user -> ResponseEntity.ok().body(user));
+	}
 }
