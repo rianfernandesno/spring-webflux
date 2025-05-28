@@ -26,16 +26,14 @@ public class PostService {
 				.switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado")));
 	}
 
+
 	public Flux<PostDTO> findByTitle(String text) {
 		return repository.searchTitle(text).map(postFound -> new PostDTO(postFound));
 	}
 
-	/*
-	public List<PostDTO> fullSearch(String text, Instant minDate, Instant maxDate) {
+	public Flux<PostDTO> fullSearch(String text, Instant minDate, Instant maxDate) {
 		maxDate = maxDate.plusSeconds(86400); // 24 * 60 * 60
-		List<PostDTO> result = repository.fullSearch(text, minDate, maxDate).stream().map(x -> new PostDTO(x)).toList();
-		return result;
-	}
+		return repository.fullSearch(text, minDate, maxDate).map(postFound -> new PostDTO(postFound));
 
-	 */
+	}
 }
